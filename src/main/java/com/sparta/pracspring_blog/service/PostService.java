@@ -33,7 +33,7 @@ public class PostService {
     }
     //(2) 전체 글 조회하기
     public List<PostResponseDto> getPostAll() {
-        return postRepository.findAll().stream().map(PostResponseDto::new).toList();
+        return postRepository.findAllByOrderByCreatedAtDesc().stream().map(PostResponseDto::new).toList();
     }
     //(3) 선택 글 조회하기
     public Optional<PostResponseDto> getPostOne(Long id) {
@@ -42,16 +42,17 @@ public class PostService {
     }
     //(4) 선택 글 수정하기
     @Transactional
-    public Long updatePost(Long id, PostRequestDto postRequestDto) {
-        Post post = findPost(id);
+    public Post updatePost(Long id, PostRequestDto postRequestDto) {
+
+        Post post = findPost(id);//?
         post.update(postRequestDto);
-        return id;
+        return post;
     }
     //(5) 선택 글 삭제하기
-    public Long deletePost(Long id) {
-        Post post = findPost(id); //?
+    public String deletePost(Long id) {
+        Post post = findPost(id);
         postRepository.delete(post);
-        return id;//?
+        return "선택한 게시글 삭제를 성공했습니다.";
     }
     private Post findPost(Long id) {
         return postRepository.findById(id).orElseThrow(() ->
