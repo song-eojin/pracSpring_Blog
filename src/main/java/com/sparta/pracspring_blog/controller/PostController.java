@@ -2,7 +2,6 @@ package com.sparta.pracspring_blog.controller;
 
 import com.sparta.pracspring_blog.dto.PostRequestDto;
 import com.sparta.pracspring_blog.dto.PostResponseDto;
-import com.sparta.pracspring_blog.entity.Post;
 import com.sparta.pracspring_blog.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +25,10 @@ public class PostController {
     public List<PostResponseDto> getPostAll() {
         return postService.getPostAll();
     }
-//    @GetMapping("/post/one")
-//    public Optional<Post> getPostOne(Long id) {
-//       return postService.getPostOne(id);
-//    }
+    @GetMapping("/post/{id}")
+    public Optional<PostResponseDto> getPostOne(@PathVariable Long id) {
+       return postService.getPostOne(id);
+    }
     @PutMapping("/post/{id}")
     public Long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
         return postService.updatePost(id, requestDto);

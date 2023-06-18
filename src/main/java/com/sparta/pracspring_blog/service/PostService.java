@@ -36,9 +36,10 @@ public class PostService {
         return postRepository.findAll().stream().map(PostResponseDto::new).toList();
     }
     //(3) 선택 글 조회하기
-    //public Optional<Post> getPostOne(Long id) {
-    //    return postRepository.findById(id);
-    //}
+    public Optional<PostResponseDto> getPostOne(Long id) {
+        Optional<PostResponseDto> postOne = postRepository.findById(id).map(PostResponseDto::new);
+        return postOne;
+    }
     //(4) 선택 글 수정하기
     @Transactional
     public Long updatePost(Long id, PostRequestDto postRequestDto) {
