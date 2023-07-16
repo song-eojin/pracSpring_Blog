@@ -6,18 +6,19 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Base64;
 import java.util.Date;
 
-@Slf4j(topic = "JwtUtil")
+@Slf4j(topic = "JWT 토큰 생성 및 검증")
 @Component
-public class JwtUtil {
+public class JwtTokenProvider {
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // 사용자 권한 값의 KEY
@@ -32,15 +33,22 @@ public class JwtUtil {
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
+    // 로그 설정
+    public static final Logger logger = LoggerFactory.getLogger("JWT 관련 로그");
+
     @PostConstruct
     public void init() {
         byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
     }
 
-    // 토큰 생성
+
+    // JWT 토큰 생성
     public String createToken(String username, UserRoleEnum role) {
         Date date = new Date();
+
+        // JWT 토큰 만료시간 설정
+        long TOKEN_TIME = 60 * 60 * 1000L; // 60분
 
         return BEARER_PREFIX +
                 Jwts.builder()
@@ -64,6 +72,7 @@ public class JwtUtil {
     // 토큰 검증
     public boolean validateToken(String token) {
         try {
+            // 토큰의 위변조, 만료 체크
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
