@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Slf4j(topic = "JWT 토큰 검증 및 인가")
+@Slf4j(topic = "JwtAuthorizationFilter : JWT 토큰 검증 및 인가")
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;

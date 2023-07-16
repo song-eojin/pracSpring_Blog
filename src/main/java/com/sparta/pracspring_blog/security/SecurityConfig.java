@@ -154,15 +154,16 @@ public class SecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 즉, 정적 리소스 접근 허용 설정
                         .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
-                        .requestMatchers("/api/user/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
+                        .requestMatchers("/api/users/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
                         .anyRequest().authenticated() //위에서 설정되지 않은 모든 요청에 대해서는 인증이 필요하다는 설정
         );
 
 
-        // 5) 로그인 페이지를 설정 및 해당 페이지에 대한 접근을 허용
+        // 5) Spring Security의 로그인 설정
+        // 로그인 페이지 설정 및 해당 페이지에 대한 접근을 허용
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/api/user/login-page").permitAll()
+                        .loginPage("/api/users/signIn").permitAll()
         );
 
 

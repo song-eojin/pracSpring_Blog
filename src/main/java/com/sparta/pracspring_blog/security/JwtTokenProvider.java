@@ -16,7 +16,7 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
-@Slf4j(topic = "JWT 토큰 생성 및 검증")
+@Slf4j(topic = "JwtTokenProvider : JWT 토큰 생성 및 검증")
 @Component
 public class JwtTokenProvider {
     // Header KEY 값
@@ -76,13 +76,13 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
+            log.error("JwtTokenProvider : Invalid JWT signature");
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT token, 만료된 JWT token 입니다.");
+            log.error("JwtTokenProvider : Expired JWT token");
         } catch (UnsupportedJwtException e) {
-            log.error("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
+            log.error("JwtTokenProvider : JwtTokenProvider Unsupported JWT token");
         } catch (IllegalArgumentException e) {
-            log.error("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
+            log.error("JwtTokenProvider : JWT claims is empty");
         }
         return false;
     }

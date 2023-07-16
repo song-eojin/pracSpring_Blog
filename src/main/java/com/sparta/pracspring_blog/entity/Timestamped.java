@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class) //@CreatedDate, @LastModifiedDate 이벤트를 읽어서 자동으로 필드로 저장
 public class Timestamped {
     @CreatedDate
     @Column(updatable = false)
