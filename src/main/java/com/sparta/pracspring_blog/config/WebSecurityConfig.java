@@ -1,12 +1,13 @@
-package com.sparta.pracspring_blog.security;
+package com.sparta.pracspring_blog.config;
 
-import com.sparta.pracspring_blog.security.JwtUtil;
-import com.sparta.pracspring_blog.security.JwtAuthenticationFilter;
-import com.sparta.pracspring_blog.security.JwtAuthorizationFilter;
+import com.sparta.pracspring_blog.jwt.JwtAuthorizationFilter;
+import com.sparta.pracspring_blog.jwt.JwtUtil;
 import com.sparta.pracspring_blog.security.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.Filter;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,14 +17,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 
+/**
+ * 1. 인증설정
+ * WebSecurityConfig > jwtUtil > UsernamePasswordAuthenticationFilter > SecurityFilterChain > 요청별 인증수행
+ */
 @Configuration
-@EnableWebSecurity // Spring Security 지원
+@EnableWebSecurity // Spring Security 지원을 가능하게 함
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
-    private final AuthenticationConfiguration authenticationConfiguration;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,15 +44,8 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(jwtUtil);
-        filter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-        return filter;
-    }
-
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
+    public Filter jwtAuthorizationFilter() {
+        return new JwtAuthorizationFilter(jwtUtil, userDetailsService, objectMapper);
     }
 
     @Bean
@@ -57,23 +58,19 @@ public class WebSecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-//        http.authorizeHttpRequests((authorizeHttpRequests) ->
-//                authorizeHttpRequests
-//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-//                        .requestMatchers("/").permitAll() // 메인 페이지 요청 허가
-//                        .requestMatchers("/api/user/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
-//                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
-//        );
-
-        http.formLogin((formLogin) ->
-                formLogin
-                        .loginPage("/api/user/login-page").permitAll()
+        http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers("/api/auth/**").permitAll() // '/api/auth/'로 시작하는 요청 모두 접근 허가
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll() // 'GET /api/posts'로 시작하는 요청 모두 접근 허가
+                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
         // 필터 관리
-        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //UsernamePasswordAuthenticationFilter.class 전에 jwtAuthorizationFilter()를 실행해라
 
         return http.build();
     }
 }
+
