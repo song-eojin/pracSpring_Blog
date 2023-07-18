@@ -51,7 +51,7 @@ public class PostController {
             return ResponseEntity.badRequest().body(new MsgResponseDto("작성자만 수정 할 수 있습니다.", HttpStatus.BAD_REQUEST.value()));
         }
 
-        return ResponseEntity.ok().body(new MsgResponseDto("게시글 삭제를 성공하셨습니다.", HttpStatus.OK.value()));
+        return ResponseEntity.ok().body(new MsgResponseDto("게시글 수정을 성공하셨습니다.", HttpStatus.OK.value()));
     }
 
     @DeleteMapping("/posts/{id}")
