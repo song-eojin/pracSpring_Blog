@@ -6,6 +6,8 @@ import com.sparta.pracspring_blog.post.dto.PostResponseDto;
 import com.sparta.pracspring_blog.post.entity.Post;
 import com.sparta.pracspring_blog.common.security.UserDetailsImpl;
 import com.sparta.pracspring_blog.post.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -15,13 +17,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.RejectedExecutionException;
 
+@Tag(name="Post Example API", description = "게시글 관련 API")
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PostController {
-
     private final PostService postService;
 
+    @Operation(summary = "게시글 생성")
     @PostMapping("/posts")
     public ResponseEntity<PostResponseDto> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostRequestDto postRequestDto) {
         PostResponseDto result = postService.createPost(postRequestDto, userDetails.getUser());
@@ -29,6 +32,7 @@ public class PostController {
         return ResponseEntity.status(201).body(result);
     }
 
+    @Operation(summary = "게시글 전체 조회")
     @GetMapping("/posts")
     public ResponseEntity<PostResponseDto> getPosts() {
         PostResponseDto result = new PostResponseDto(postService.getPosts());
@@ -36,6 +40,7 @@ public class PostController {
         return ResponseEntity.ok().body(result);
     }
 
+    @Operation(summary = "게시글 단건 조회")
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
         PostResponseDto result = postService.getPostById(id);
