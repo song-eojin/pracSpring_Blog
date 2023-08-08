@@ -163,7 +163,7 @@ public class WebSecurityConfig {
         // 로그인 페이지 설정 및 해당 페이지에 대한 접근을 허용
         http.formLogin((formLogin) ->
                 formLogin
-                        .loginPage("/api/users/signIn").permitAll()
+                        .loginPage("/api/users/login").permitAll()
         );
 
 

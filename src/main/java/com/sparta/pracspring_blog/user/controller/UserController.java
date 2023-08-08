@@ -28,7 +28,7 @@ public class UserController {
   // 1) @RequestBody : HTTP Request의 Body에 있는 데이터를 자바 객체인 UserRequestDto로 변환
   // 2) @Valid : 객체의 유효성 검사
   // 3) 유효성 검사 결과를 BindingResult 객체에 저장
-  @PostMapping("/signUp")
+  @PostMapping("/signup")
   public ResponseEntity<MsgResponseDto> signup(@Valid @RequestBody UserRequestDto userRequestDto,
       BindingResult bindingResult) {
 

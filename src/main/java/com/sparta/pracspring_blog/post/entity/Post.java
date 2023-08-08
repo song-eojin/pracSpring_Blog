@@ -17,7 +17,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post extends Timestamped { // 상속받은 TimeStamped의 필드도 자동으로 Post 테이블의 필드로 추가된다.
+public class Post extends Timestamped {
+// 상속받은 TimeStamped의 필드도 자동으로 Post 테이블의 필드로 추가된다.
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
