@@ -141,7 +141,7 @@
 <br><br>
 
 <h3>설계 02. ERD</h3>
-<img width="80%" src="https://user-images.githubusercontent.com/16822641/109461495-913fc480-7aa5-11eb-9d0e-aff762669f98.gif"/>
+![pracSpring_Blog](https://github.com/song-eojin/pracSpring_Blog/assets/122079064/434dfba1-6bdd-4086-ba6c-0933a74a99c6)
 <br><br>
 
 
