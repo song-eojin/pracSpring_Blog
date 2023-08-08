@@ -36,33 +36,27 @@
             <li>로그인 성공 시, 로그인에 성공한 유저의 정보를 JWT를 활용하여 클라이언트에게 Cookie로 전달하기</li>
         </ul>
     </li>
-    
     <li>7/27 - 전체 게시글 목록 조회 API
         <ul>
             <li>제목, 작성자명(nickname), 작성 날짜를 조회하기</li>
             <li>작성 날짜 기준으로 내림차순 정렬하기</li>
         </ul>
     </li>
-    
     <li>7/28 - 게시글 작성 API
         <ul>
             <li>토큰을 검사하여, 유효한 토큰일 경우에만 게시글 작성 가능</li>
             <li>제목, 작성 내용을 입력하기</li>
         </ul>
     </li>
-
     <li>7/31 - 게시글 조회 API
         <ul><li>제목, 작성자명(nickname), 작성 날짜, 작성 내용을 조회하기 (검색 기능이 아닙니다. 간단한 게시글 조회만 구현해주세요.)</li></ul>
     </li>
-    
     <li>8/1 - 게시글 수정 API
         <ul><li>토큰을 검사하여, 해당 사용자가 작성한 게시글만 수정 가능</li></ul>
     </li>
-    
     <li> 8/2 - 게시글 삭제 API
         <ul><li>토큰을 검사하여, 해당 사용자가 작성한 게시글만 삭제 가능</li></ul>
     </li>
-    
     <li>8/3 - 댓글 작성 API 
         <ul>
             <li>게시글과 연관관계를 가진 댓글 테이블 추가</li>
@@ -70,7 +64,6 @@
             <li>작성 내용을 입력하기</li>
         </ul>
     </li>
-    
     <li>8/4 - 게시글과 댓글조회 API, 댓글 수정/삭제 API
         <ul>
             <li>게시글 조회 API 호출시 해당 게시글의 댓글 목록도 응답</li>
@@ -148,7 +141,8 @@
 <br><br>
 
 <h3>설계 02. ERD</h3>
-![pracSpring_Blog](https://github.com/song-eojin/pracSpring_Blog/assets/122079064/eeff0c93-bcc5-49f1-ae9c-ce012df51e05)
+<img width="70%" src="![pracSpring_Blog](https://github.com/song-eojin/pracSpring_Blog/assets/122079064/8bd33b7d-6277-4dec-b5c6-68fe4b895916)
+"/>
 
 <br><br>
 
